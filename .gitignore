@@ -1,0 +1,16 @@
+
+Data/TCGA/PRAD/MANIFEST.txt
+
+Data/TCGA/PRAD/PRAD.uncv2.mRNAseq_geneid_transcriptid_mapping.txt
+
+Data/TCGA/PRAD/PRAD.uncv2.mRNAseq_raw_counts.txt
+
+Data/TCGA/PRAD/PRAD.uncv2.mRNAseq_RSEM_all.txt
+
+Data/TCGA/PRAD/PRAD.uncv2.mRNAseq_RSEM_normalized_log2_PARADIGM.txt
+
+Data/TCGA/PRAD/PRAD.uncv2.mRNAseq_RSEM_normalized_log2.txt
+
+Data/TCGA/PRAD/PRAD.uncv2.mRNAseq_RSEM_Z_Score.txt
+
+Data/TCGA/PRAD/PRAD.uncv2.mRNAseq_scaled_estimate.txt
