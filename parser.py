@@ -29,7 +29,7 @@ class ParsedData(object):
 #    filename - the input data filepath
 #Returns:
 #    ParsedData object
-def tcga(filename):
+def tcga(filename,):
     with open(filename,'r') as f:
         content = [x.strip('\n') for x in f.readlines()]
         #note: names includes the name of the sample column - thus is will be 1
@@ -39,19 +39,25 @@ def tcga(filename):
         data_matrix = []
         for idx,line in enumerate(content):
             if idx >= 1:
-                line_data = line.split('\t')
+                line_data = line.strip().split('\t')
                 samples.append(line_data[0])
                 data_matrix.append([float(x) for x in line_data[1:]]) 
         return(ParsedData(samples, names, data_matrix))
 
+#TODO: Make get CCLE data files and redo this function
+#CCLE data parsing function
+#Parameters:
+#    filename - the input data filepath
+#Returns:
+#    ParsedData object
 def ccle(filename):
     with open(filename, 'r') as f:
-        names = []
+        names = f.readline().strip().split('\t')
         samples = []
         data_matrix = []
         for idx,line in enumerate(f):
             if idx >= 1:
-                line_data = line.split('\t')
+                line_data = line.strip().split('\t')
                 samples.append(line_data[0])
                 data_matrix.append([float(x) for x in line_data[1:]]) 
         return(ParsedData(samples, names, data_matrix))
