@@ -14,3 +14,5 @@ Data/TCGA/PRAD/PRAD.uncv2.mRNAseq_RSEM_normalized_log2.txt
 Data/TCGA/PRAD/PRAD.uncv2.mRNAseq_RSEM_Z_Score.txt
 
 Data/TCGA/PRAD/PRAD.uncv2.mRNAseq_scaled_estimate.txt
+
+Data/CCLE/CCLE_Expression_Entrez_2012-09-29.txt

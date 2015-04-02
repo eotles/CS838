@@ -51,13 +51,19 @@ def tcga(filename,):
 #Returns:
 #    ParsedData object
 def ccle(filename):
+    #It is for .gct file type. ARM-normalized mRNA expression
     with open(filename, 'r') as f:
-        names = f.readline().strip().split('\t')
+        content = [x.strip('\n') for x in f.readlines()]
         samples = []
+        description = []
         data_matrix = []
-        for idx,line in enumerate(f):
-            if idx >= 1:
+        names = content[2].split('\t')[2:] #The first two is "name" and "description"
+        for idx,line in enumerate(content):
+            #first line is version number
+            #second line is matrix dimension
+            if idx >= 3:
                 line_data = line.strip().split('\t')
                 samples.append(line_data[0])
-                data_matrix.append([float(x) for x in line_data[1:]]) 
+                description.append(line_data[1])
+                data_matrix.append([float(x) for x in line_data[2:]])
         return(ParsedData(samples, names, data_matrix))
