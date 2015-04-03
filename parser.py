@@ -16,13 +16,15 @@ class ParsedData(object):
         self.names = names
         self.matrix = matrix
     #
-    def disp(self, show_matrix=False):
-        print("%s samples: %s\n%s names: %s" %(len(self.samples), self.samples, len(self.names), self.names))
-        print("matrix size: %s x %s" %(len(self.matrix),len(self.matrix[0])))
-        
-        if(show_matrix):
+    def disp(self, no_show=True):
+        if(no_show):
+            print("%s samples, %s names" %(len(self.samples), len(self.names)))
+            print("matrix size: %s x %s" %(len(self.matrix),len(self.matrix[0])))
+        else:
+            print("samples names: %s\ncolumn names: %s" %(self.samples, self.names))
+            print("matrix:")
             for row in self.matrix:
-                print(row)
+                print("\t%s" %(row))
 
 #TCGA data parsing function
 #Parameters:

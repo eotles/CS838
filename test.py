@@ -4,7 +4,6 @@ Created on Mar 30, 2015
 @authors: hliu, tjaraczewski, eotles
 '''
 
-
 def main():
     #Testing the functionality of the TCGA parser
     import parser as prs
@@ -18,7 +17,7 @@ def main():
     
     data["CCLE"] = prs.ccle(ccle_filepath)
     data["CCLE"].disp()
-    #print(data["PRAD"]["CCLE"].names[0])
+    #print(data["CCLE"].names[0])
 
 
 if __name__ == '__main__':
