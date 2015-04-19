@@ -12,6 +12,8 @@ from scipy.spatial.distance import pdist, squareform
 from scipy.cluster.hierarchy import linkage, dendrogram
 from Algorithms import *
 import scipy.io
+import struct
+
 def main():
     #Testing the functionality of the TCGA parser
     import parser as prs
@@ -22,18 +24,28 @@ def main():
     #Does the CCLE file below have data for all of the cancers we wish to look at?
     ccle_filepath = 'Data/CCLE/CCLE_Expression_Entrez_2012-09-29.txt'
     data = {_: dict() for _ in ["PRAD"]}
-    data["PRAD"]["TCGA"] = prs.tcga(prad_tcga_filepath)
-    scipy.io.savemat('samples.mat', mdict={'samples': data["PRAD"]["TCGA"] .samples})
-    scipy.io.savemat('genes.mat', mdict={'genes': data["PRAD"]["TCGA"] .names})
-
-    print("Runing PCA....")
-    pca = PCA_wrapper(data["PRAD"]["TCGA"].matrix,3)
-    pca_data = pca.transform(data["PRAD"]["TCGA"].matrix);
-    scipy.io.savemat('pca_data_3d.mat', mdict={'pca_data_3d': pca_data})
     
-    print("Runing KMeans....")
-    labels = KMeans_wrapper(pca_data,8)
-    scipy.io.savemat('labels.mat', mdict={'labels': labels})
+    f = open("Data/CCLE_Expression.Arrays_2013-03-18/AGENT_p_NCLE_RNA6_HG-U133_Plus_2_A01_436578.CEL")
+    #for line in f:
+    #    print(line)
+    
+    (num,) = struct.unpack('f', f.read(4))
+    print(num)
+    
+    
+    #data["PRAD"]["TCGA"] = prs.tcga(prad_tcga_filepath)
+    #scipy.io.savemat('samples.mat', mdict={'samples': data["PRAD"]["TCGA"] .samples})
+    #scipy.io.savemat('genes.mat', mdict={'genes': data["PRAD"]["TCGA"] .names})
+
+    #print("Running PCA....")
+    #pca = PCA_wrapper(data["PRAD"]["TCGA"].matrix,3)
+    #pca_data = pca.transform(data["PRAD"]["TCGA"].matrix);
+    #scipy.io.savemat('pca_data_3d.mat', mdict={'pca_data_3d': pca_data})
+    
+    #print("Running KMeans....")
+    #labels = KMeans_wrapper(pca_data,8)
+    #scipy.io.savemat('labels.mat', mdict={'labels': labels})
+    
     #data["PRAD"]["TCGA"].disp()
     
     #data["CCLE"] = prs.ccle(ccle_filepath)
