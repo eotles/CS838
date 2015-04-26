@@ -14,6 +14,7 @@ from scipy.cluster.hierarchy import linkage, dendrogram
 from Algorithms import *
 import scipy.io
 import struct
+import parser
 
 def align(parsedDatas):
     alignedNames = copy.deepcopy(parsedDatas[0].names)
@@ -21,8 +22,19 @@ def align(parsedDatas):
     
     for parsedData in parsedDatas:
         alignedNames = [name for name in alignedNames if name in parsedData.names]
+    
+    alignedDatas = list()
+    for parsedData in parsedDatas:
+        idxs = [parsedData.names.index(name) for name in alignedNames]
+        alignedSamples = parsedData.samples
+        print("%s, %s" %(min(idxs), max(idxs)))
+        print(len(parsedData.matrix[0]))
+        alignedMatrix = [[line[idx] for idx in idxs] for line in parsedData.matrix]
+        print(idxs)
+        alignedDatas.append(parser.ParsedData(alignedSamples, alignedNames, alignedMatrix))
 
-    return(alignedNames)
+    #return(alignedNames)
+    return(alignedDatas)
                 
 
 
@@ -63,7 +75,7 @@ def main():
     print(len(data["PRAD"]["TCGA"].names))
     #print(data["PRAD"]["TCGA"].samples)
     print(len(data["CCLE"].names))
-    #print(data["CCLE"].samples)
+    # print(data["CCLE"].samples)
     
     algn = align([data["PRAD"]["TCGA"], data["CCLE"]])
     print(algn)
