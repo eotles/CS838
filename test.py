@@ -4,6 +4,7 @@ Created on Mar 30, 2015
 @authors: hliu, tjaraczewski, eotles
 '''
 
+import copy
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -13,6 +14,17 @@ from scipy.cluster.hierarchy import linkage, dendrogram
 from Algorithms import *
 import scipy.io
 import struct
+
+def align(parsedDatas):
+    alignedNames = copy.deepcopy(parsedDatas[0].names)
+    #alignedNames = parsedDatas[0].names.copy()
+    
+    for parsedData in parsedDatas:
+        alignedNames = [name for name in alignedNames if name in parsedData.names]
+
+    return(alignedNames)
+                
+
 
 def main():
     #Testing the functionality of the TCGA parser
@@ -25,15 +37,11 @@ def main():
     ccle_filepath = 'Data/CCLE/CCLE_Expression_Entrez_2012-09-29.txt'
     data = {_: dict() for _ in ["PRAD"]}
     
-    f = open("Data/CCLE_Expression.Arrays_2013-03-18/AGENT_p_NCLE_RNA6_HG-U133_Plus_2_A01_436578.CEL")
-    #for line in f:
-    #    print(line)
+
     
-    (num,) = struct.unpack('f', f.read(4))
-    print(num)
+    data["PRAD"]["TCGA"] = prs.tcga(prad_tcga_filepath)
+    #print(data["PRAD"]["TCGA"].names)
     
-    
-    #data["PRAD"]["TCGA"] = prs.tcga(prad_tcga_filepath)
     #scipy.io.savemat('samples.mat', mdict={'samples': data["PRAD"]["TCGA"] .samples})
     #scipy.io.savemat('genes.mat', mdict={'genes': data["PRAD"]["TCGA"] .names})
 
@@ -48,7 +56,22 @@ def main():
     
     #data["PRAD"]["TCGA"].disp()
     
-    #data["CCLE"] = prs.ccle(ccle_filepath)
+    data["CCLE"] = prs.ccle(ccle_filepath)
+    #print(data["CCLE"].names)
+    
+    #genes dont seem to match
+    print(len(data["PRAD"]["TCGA"].names))
+    #print(data["PRAD"]["TCGA"].samples)
+    print(len(data["CCLE"].names))
+    #print(data["CCLE"].samples)
+    
+    algn = align([data["PRAD"]["TCGA"], data["CCLE"]])
+    print(algn)
+    print(len(algn))
+    
+    
+    
+    
     #data["CCLE"].disp()
     #print(data["PRAD"]["CCLE"].names[0])
     #print("Computing Distance Matrix")

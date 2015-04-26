@@ -4,6 +4,20 @@ Created on Mar 30, 2015
 @author: hliu, tjaraczewski,eotles
 '''
 
+class mrnaData(object):
+    def __init__(self):
+        self.samples = list()
+        self.genes = list()
+        self.sampleData = dict()
+        self.sampleMeta = dict()
+    
+    def merge(self, mrnaData):
+        #merge sample lists
+        #intersect genes
+        #merge sample data based on 
+        self.samples
+
+
 #ParsedData Class
 #Attributes:
 #    samples - list of sample IDs (corresponding to rows of matrix)
@@ -36,13 +50,15 @@ def tcga(filename,):
         content = [x.strip('\n') for x in f.readlines()]
         #note: names includes the name of the sample column - thus is will be 1
         #more than the number of matrix columns.
-        names = content[0].split('\t')
-        samples = []
+        samples = content[0].split('\t')
+        #names = content[0].split('\t')
+        names = []
+        #samples = []
         data_matrix = []
         for idx,line in enumerate(content):
             if idx >= 1:
                 line_data = line.strip().split('\t')
-                samples.append(line_data[0])
+                names.append(line_data[0])
                 data_matrix.append([float(x) for x in line_data[1:]]) 
         return(ParsedData(samples, names, data_matrix))
 
@@ -57,15 +73,22 @@ def ccle(filename):
     with open(filename, 'r') as f:
         content = [x.strip('\n') for x in f.readlines()]
         samples = []
-        description = []
+        #description = []
         data_matrix = []
-        names = content[2].split('\t')[2:] #The first two is "name" and "description"
+        names = list()
+        #names = content[2].split('\t')[2:] #The first two is "name" and "description"
         for idx,line in enumerate(content):
+            line_data = line.strip().split('\t')
+            #line 0 is version number
+            #line 1 is matrix dimension
+            #line 2 is sample names?
+            if(idx == 2):
+                samples = line_data[2:]
             #first line is version number
             #second line is matrix dimension
-            if idx >= 3:
-                line_data = line.strip().split('\t')
-                samples.append(line_data[0])
-                description.append(line_data[1])
+            elif(idx >= 3):
+                names.append("%s|%s" %(line_data[1], line_data[0][:-3]))
+                #samples.append(line_data[0])
+                #description.append(line_data[1])
                 data_matrix.append([float(x) for x in line_data[2:]])
         return(ParsedData(samples, names, data_matrix))
