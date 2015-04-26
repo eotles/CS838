@@ -44,15 +44,18 @@ def main():
 
     print("Loading data....")
     #The TCGA file below jut has data for prostate cancer - right?
-    prad_tcga_filepath = 'Data/TCGA/PRAD/PRAD.uncv2.mRNAseq_raw_counts.txt'
+    prad_tcga_filepath = 'Data/TCGA/GBM.transcriptome__ht_hg_u133a__broad_mit_edu__Level_3__gene_rma__data.data.txt'
     #Does the CCLE file below have data for all of the cancers we wish to look at?
     ccle_filepath = 'Data/CCLE/CCLE_Expression_Entrez_2012-09-29.txt'
-    data = {_: dict() for _ in ["PRAD"]}
-    
+    #data = {_: dict() for _ in ["PRAD"]}
+    data = {}
+    data["TCGA"] = prs.tcga(prad_tcga_filepath)
+    data["CCLE"] = prs.ccle(ccle_filepath)
 
-    
-    data["PRAD"]["TCGA"] = prs.tcga(prad_tcga_filepath)
-    #print(data["PRAD"]["TCGA"].names)
+    algn = align([data["TCGA"], data["CCLE"]])
+    print(algn)
+    print(len(algn))
+    #print(data["TCGA"].names)
     
     #scipy.io.savemat('samples.mat', mdict={'samples': data["PRAD"]["TCGA"] .samples})
     #scipy.io.savemat('genes.mat', mdict={'genes': data["PRAD"]["TCGA"] .names})
@@ -68,22 +71,14 @@ def main():
     
     #data["PRAD"]["TCGA"].disp()
     
-    data["CCLE"] = prs.ccle(ccle_filepath)
-    #print(data["CCLE"].names)
+    #data["CCLE"] = prs.ccle(ccle_filepath)
+#print(data["CCLE"].names)
     
-    #genes dont seem to match
-    print(len(data["PRAD"]["TCGA"].names))
-    #print(data["PRAD"]["TCGA"].samples)
-    print(len(data["CCLE"].names))
-    # print(data["CCLE"].samples)
-    
-    algn = align([data["PRAD"]["TCGA"], data["CCLE"]])
-    print(algn)
-    print(len(algn))
-    
-    
-    
-    
+    #genes dont seem to match    
+    #algn = align([data["PRAD"]["TCGA"], data["CCLE"]])
+    #print(algn)
+    #print(len(algn))
+
     #data["CCLE"].disp()
     #print(data["PRAD"]["CCLE"].names[0])
     #print("Computing Distance Matrix")

@@ -50,13 +50,12 @@ def tcga(filename,):
         content = [x.strip('\n') for x in f.readlines()]
         #note: names includes the name of the sample column - thus is will be 1
         #more than the number of matrix columns.
-        samples = content[0].split('\t')
-        #names = content[0].split('\t')
+        samples = content[0].split('\t')[1:]
         names = []
         #samples = []
         data_matrix = []
         for idx,line in enumerate(content):
-            if idx >= 1:
+            if idx >= 2:
                 line_data = line.strip().split('\t')
                 names.append(line_data[0])
                 data_matrix.append([float(x) for x in line_data[1:]]) 
@@ -69,14 +68,13 @@ def tcga(filename,):
 #Returns:
 #    ParsedData object
 def ccle(filename):
-    #It is for .gct file type. ARM-normalized mRNA expression
+    #It is for .res file type. ARM-normalized mRNA expression
     with open(filename, 'r') as f:
         content = [x.strip('\n') for x in f.readlines()]
         samples = []
         #description = []
         data_matrix = []
         names = list()
-        #names = content[2].split('\t')[2:] #The first two is "name" and "description"
         for idx,line in enumerate(content):
             line_data = line.strip().split('\t')
             #line 0 is version number
@@ -87,7 +85,7 @@ def ccle(filename):
             #first line is version number
             #second line is matrix dimension
             elif(idx >= 3):
-                names.append("%s|%s" %(line_data[1], line_data[0][:-3]))
+                names.append("%s" %(line_data[1]))
                 #samples.append(line_data[0])
                 #description.append(line_data[1])
                 data_matrix.append([float(x) for x in line_data[2:]])
