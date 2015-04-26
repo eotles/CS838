@@ -51,7 +51,7 @@ def main():
     data = {}
     data["TCGA"] = prs.tcga(prad_tcga_filepath)
     data["CCLE"] = prs.ccle(ccle_filepath)
-
+    print("Finish Loading data....")
     algn = align([data["TCGA"], data["CCLE"]])
     print(algn)
     print(len(algn))
@@ -74,7 +74,7 @@ def main():
     #data["CCLE"] = prs.ccle(ccle_filepath)
 #print(data["CCLE"].names)
     
-    #genes dont seem to match    
+    #genes dont seem to match
     #algn = align([data["PRAD"]["TCGA"], data["CCLE"]])
     #print(algn)
     #print(len(algn))

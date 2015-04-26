@@ -58,7 +58,8 @@ def tcga(filename,):
             if idx >= 2:
                 line_data = line.strip().split('\t')
                 names.append(line_data[0])
-                data_matrix.append([float(x) for x in line_data[1:]]) 
+                data_matrix.append([float(x) for x in line_data[1:]])
+        data_matrix =zip(*data_matrix)
         return(ParsedData(samples, names, data_matrix))
 
 #TODO: Make get CCLE data files and redo this function
@@ -89,4 +90,5 @@ def ccle(filename):
                 #samples.append(line_data[0])
                 #description.append(line_data[1])
                 data_matrix.append([float(x) for x in line_data[2:]])
+        data_matrix = zip(*data_matrix)
         return(ParsedData(samples, names, data_matrix))
