@@ -44,12 +44,13 @@ def main():
 
     print("Loading data....")
     #The TCGA file below jut has data for prostate cancer - right?
-    prad_tcga_filepath = 'Data/TCGA/GBM.transcriptome__ht_hg_u133a__broad_mit_edu__Level_3__gene_rma__data.data.txt'
+    #prad_tcga_filepath = 'Data/TCGA/GBM.transcriptome__ht_hg_u133a__broad_mit_edu__Level_3__gene_rma__data.data.txt'
+    tcga_filepath = 'Data/TCGA/GBM.transcriptome__ht_hg_u133a__broad_mit_edu__Level_3__gene_rma__data.data.txt'
     #Does the CCLE file below have data for all of the cancers we wish to look at?
     ccle_filepath = 'Data/CCLE/CCLE_Expression_Entrez_2012-09-29.txt'
     #data = {_: dict() for _ in ["PRAD"]}
     data = {}
-    data["TCGA"] = prs.tcga(prad_tcga_filepath)
+    data["TCGA"] = prs.tcga(tcga_filepath)
     data["CCLE"] = prs.ccle(ccle_filepath)
     print("Finish Loading data....")
     algn = align([data["TCGA"], data["CCLE"]])
