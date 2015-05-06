@@ -22,3 +22,11 @@ Data/CCLE/CCLE_Expression_Entrez_2012-09-29.txt
 *.pyc
 
 Data/TCGA/GBM.transcriptome__ht_hg_u133a__broad_mit_edu__Level_3__gene_rma__data.data.txt
+
+*.txt
+
+*.m
+
+*.m~
+
+*.mat
