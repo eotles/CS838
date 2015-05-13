@@ -1,5 +1,5 @@
 This readme is how to use the files for the project Accessing Clustering Pipeline.
-The code is devided into two part: (1) parser, and (2) algorithms
+The code is divided into two part: (1) parser, and (2) algorithms
 
 (1) The parser is writen in python, in the file python.py. 
     To use the parser:

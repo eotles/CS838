@@ -4,6 +4,8 @@ Created on Mar 30, 2015
 @author: hliu, tjaraczewski,eotles
 '''
 
+import copy
+
 
 #ParsedData Class
 #Attributes:
@@ -74,3 +76,28 @@ def ccle(filename):
                 data_matrix.append([float(x) for x in line_data[2:]])
         data_matrix = zip(*data_matrix)
         return(ParsedData(samples, names, data_matrix))
+
+#Parsed data aligning function
+#Parameters:
+#    parsedDatas - a list of parsedData objects
+#Returns:
+#    alignedDatas - a list of aligned parsedData objects
+def align(parsedDatas):
+    alignedNames = copy.deepcopy(parsedDatas[0].names)
+    
+    #find names of genes shared between all of the parsedData
+    for parsedData in parsedDatas:
+        alignedNames = [name for name in alignedNames if name in parsedData.names]
+    
+    #loop through all parsedDatas and keep only aligned names in proper order
+    alignedDatas = list()
+    for parsedData in parsedDatas:
+        idxs = [parsedData.names.index(name) for name in alignedNames]
+        alignedSamples = parsedData.samples
+        print("%s, %s" %(min(idxs), max(idxs)))
+        print(len(parsedData.matrix[0]))
+        alignedMatrix = [[line[idx] for idx in idxs] for line in parsedData.matrix]
+        print(idxs)
+        alignedDatas.append(ParsedData(alignedSamples, alignedNames, alignedMatrix))
+
+    return(alignedDatas)
