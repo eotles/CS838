@@ -4,19 +4,6 @@ Created on Mar 30, 2015
 @author: hliu, tjaraczewski,eotles
 '''
 
-class mrnaData(object):
-    def __init__(self):
-        self.samples = list()
-        self.genes = list()
-        self.sampleData = dict()
-        self.sampleMeta = dict()
-    
-    def merge(self, mrnaData):
-        #merge sample lists
-        #intersect genes
-        #merge sample data based on 
-        self.samples
-
 
 #ParsedData Class
 #Attributes:
@@ -29,7 +16,7 @@ class ParsedData(object):
         self.samples = samples
         self.names = names
         self.matrix = matrix
-    #
+    #Pretty print display
     def disp(self, no_show=True):
         if(no_show):
             print("%s samples, %s names" %(len(self.samples), len(self.names)))
@@ -52,7 +39,6 @@ def tcga(filename,):
         #more than the number of matrix columns.
         samples = content[0].split('\t')[1:]
         names = []
-        #samples = []
         data_matrix = []
         for idx,line in enumerate(content):
             if idx >= 2:
@@ -62,7 +48,6 @@ def tcga(filename,):
         data_matrix =zip(*data_matrix)
         return(ParsedData(samples, names, data_matrix))
 
-#TODO: Make get CCLE data files and redo this function
 #CCLE data parsing function
 #Parameters:
 #    filename - the input data filepath
@@ -73,7 +58,6 @@ def ccle(filename):
     with open(filename, 'r') as f:
         content = [x.strip('\n') for x in f.readlines()]
         samples = []
-        #description = []
         data_matrix = []
         names = list()
         for idx,line in enumerate(content):
@@ -87,8 +71,6 @@ def ccle(filename):
             #second line is matrix dimension
             elif(idx >= 3):
                 names.append("%s" %(line_data[1]))
-                #samples.append(line_data[0])
-                #description.append(line_data[1])
                 data_matrix.append([float(x) for x in line_data[2:]])
         data_matrix = zip(*data_matrix)
         return(ParsedData(samples, names, data_matrix))
