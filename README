@@ -1,0 +1,43 @@
+This readme is how to use the files for the project Accessing Clustering Pipeline.
+The code is devided into two part: (1) parser, and (2) algorithms
+
+(1) The parser is writen in python, in the file python.py. 
+    To use the parser:
+    
+    data["TCGA"] = prs.tcga(tcga_filepath)
+    data["CCLE"] = prs.ccle(ccle_filepath) 
+
+    those two functions will parse RMA-normalized dataset from TCGA and CCLE seperately and store them in the data object.
+    
+    The two dataset files are from different versions of the U133 chip. To align the data to have the same genes, we implemented the alignment function, which filtered out the genes that are not shared between datasets. To use this function:
+
+    algn = align([data["TCGA"], data["CCLE"]])
+    
+    The function returns the combined samples(in the example above, TCGA first, then CCLE) with shared genes. Then we output data to matlab use scipy.io.savemat to export the gene names, sample labels and datamatrix to matlab.
+    An example for exporting data to Matlab would be:
+
+    scipy.io.savemat('tcga_samples.mat', mdict={'tcga_samples': data["TCGA"].samples})
+    scipy.io.savemat('tcga_genes.mat', mdict={'tcga_genes': data["TCGA"].names})
+    scipy.io.savemat('ccle_samples.mat', mdict={'ccle_samples': data["CCLE"].samples})
+    scipy.io.savemat('ccle_genes.mat', mdict={'ccle_genes': data["CCLE"].names})
+    scipy.io.savemat('aligned_data.mat', mdict={'aligned_data': algn})
+
+(2) Once we have the parsed data we use Matlab for normalization and clustering
+    In the matlab script, we assumes the names of the datasets are:
+    
+    { CCLE_data_gbmlgg,CCLE_data_ov,TCGA_data_gbmlgg,TCGA_data_ov }
+
+    PipelineScript.m is the script for ploting hierarchical clustering with/without PCA.
+    
+    For the other functions,
+
+     quantile2.m and quantile4.m are used for full quantile and pair quantile normalization
+
+     Kmean2.m and Kmean4.m are the wrappers for runing kmeans with k = 2 and k = 4 with a display of the confusion matrix.
+
+     PCA_2.m is the script for PCA dimension reduction to 2 with ploting the scatter plot.
+
+     merge_data.m is the script that selects the first 50 samples from all the dataset combine them and runs a simple k-mean with k = 4.
+     
+     The four Matlab datafile we have 'Raw.mat', 'Quantiled.mat', 'pair_quantiled.mat', 'z-score.mat', which contains the raw data and normalized data. The 'Raw.mat' also contains the sample labels and the gene list.
+     
